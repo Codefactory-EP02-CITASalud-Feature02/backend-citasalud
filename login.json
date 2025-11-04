@@ -1,0 +1,1 @@
+{"query":"mutation Login($email: String!, $contrasena: String!) { login(input: { email: $email, contrasena: $contrasena }) { token } }","variables":{"email":"juan.perez@hospital.com","contrasena":"123456"}}
