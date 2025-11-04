@@ -9,6 +9,8 @@ jobs:
   deploy:
     name: Deploy backend to Fly
     runs-on: ubuntu-latest
+    env:
+      FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -16,18 +18,13 @@ jobs:
       - name: Set up Flyctl
         uses: superfly/flyctl-actions/setup-flyctl@v1
 
-      - name: Authenticate to Fly (uses FLY_API_TOKEN secret)
-        env:
-          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+      - name: Validate FLY_API_TOKEN is present
         run: |
-          if [ -z "$FLY_API_TOKEN" ]; then
+          if [ -z "${FLY_API_TOKEN}" ]; then
             echo "FLY_API_TOKEN is not set. Add it to repository secrets to enable deploy.";
             exit 1;
           fi
-          # Non-interactive login to Fly using the token from GitHub Secrets
-          flyctl auth login --access-token "$FLY_API_TOKEN"
-          # Print authenticated account to the log so we can confirm (logs are masked for secrets)
-          flyctl auth whoami
+          echo "FLY_API_TOKEN is present (masked). Proceeding with deploy."
 
       - name: Set Fly secrets (if provided in GitHub Secrets)
         env:
