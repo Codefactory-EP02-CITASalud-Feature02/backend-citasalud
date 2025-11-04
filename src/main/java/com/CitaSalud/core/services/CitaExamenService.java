@@ -171,4 +171,14 @@ public class CitaExamenService {
         return citaExamenRepository.save(cita);
     }
 
+    /**
+     * Devuelve las citas pertenecientes a un usuario por su id.
+     * @param usuarioId id del usuario
+     * @return lista de CitaExamen del usuario
+     */
+    @Transactional(readOnly = true)
+    public java.util.List<CitaExamen> obtenerCitasPorUsuario(Long usuarioId) {
+        return citaExamenRepository.findByUsuario_IdUsuario(usuarioId);
+    }
+
 }

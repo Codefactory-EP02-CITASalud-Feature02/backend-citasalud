@@ -42,6 +42,8 @@ type Query {
 
     # Corregido: Todos los IDs deben ser ID! (Long)
     examenesDisponibles(fecha: String!, sedeId: ID!, tipoExamenId: ID!): [Examen!]!
+    # Devuelve las citas del usuario autenticado (usa el userId del token)
+    misCitas: [CitaExamen!]!
 }
 
 # --- MUTATIONS (Modificaciones de Estado) ---
