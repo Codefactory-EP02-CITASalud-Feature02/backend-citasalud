@@ -1,0 +1,13 @@
+HTTP/1.1 403 
+x-content-type-options: nosniff
+x-xss-protection: 0
+cache-control: no-cache, no-store, max-age=0, must-revalidate
+pragma: no-cache
+expires: 0
+x-frame-options: DENY
+date: Tue, 04 Nov 2025 15:44:23 GMT
+server: Fly/42d08e92a (2025-11-04)
+via: 1.1 fly.io
+fly-request-id: 01K97RMTSP6S1RSY9ZESVWY2TC-gru
+content-length: 0
+
