@@ -4,7 +4,9 @@ WORKDIR /workspace
 # Copy Maven files first for dependency caching
 COPY pom.xml mvnw mvnw.cmd ./
 COPY .mvn .mvn
-RUN mvn -B -N
+# Prefetch dependencies to utilize Docker layer caching. Use the dependency:go-offline goal
+# instead of running mvn with no goals (which causes "No goals have been specified").
+RUN mvn -B -f pom.xml -DskipTests dependency:go-offline
 
 # Copy sources and build
 COPY src ./src
