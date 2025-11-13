@@ -92,7 +92,7 @@ public class CitaExamenService {
         nuevaCita.setUsuario(usuario);
         nuevaCita.setDisponibilidad(disponibilidad);
         nuevaCita.setFechaHora(dto.getFechaHora());
-        nuevaCita.setEstado("AGENDADA");
+        nuevaCita.setEstado(EstadoCita.CONFIRMADO);
 
         // Persistir y retornar la cita agendada
         return citaExamenRepository.save(nuevaCita);
@@ -129,11 +129,10 @@ public class CitaExamenService {
             throw new SecurityException("No tiene permiso para cancelar esta cita.");
         }
 
-        // 3. Validación de Regla de Negocio (basado en la imagen de la DB)
-        // El estado 'pendiente' parece ser el inicial, 'AGENDADA' el confirmado.
-        // Ajusta esta lógica si es necesario.
-        if (!"AGENDADA".equals(cita.getEstado()) && !"pendiente".equals(cita.getEstado())) {
-            throw new IllegalStateException("La cita no puede ser cancelada (estado actual: " + cita.getEstado() + ")");
+        // ---- MODIFICADO POR LA HISTORIA DE USUARIO ----
+        // 3. Validar estado (no se puede cancelar una cita ya cancelada o completada)
+        if (cita.getEstado() == EstadoCita.CANCELADO || cita.getEstado() == EstadoCita.COMPLETADO) {
+            throw new IllegalStateException("La cita ya está en un estado final (Cancelada o Completada) y no puede modificarse.");
         }
 
         // 4. Obtener la disponibilidad de la cita para bloquearla
@@ -164,7 +163,7 @@ public class CitaExamenService {
         disponibilidadRepository.save(disponibilidadBloqueada);
 
         // 7. Actualizar la cita (coincide con tu columna 'motivo_cancelacion')
-        cita.setEstado("CANCELADA");
+        cita.setEstado(EstadoCita.CANCELADO);
         cita.setMotivoCancelacion(dto.getMotivo());
 
         // 8. Persistir y retornar la cita actualizada
