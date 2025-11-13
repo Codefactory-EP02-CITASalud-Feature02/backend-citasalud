@@ -60,6 +60,17 @@ type Mutation {
 }
 
 # --- TIPOS DE RESPUESTA (Output Types) ---
+# 1. Se define el Enum que corresponde a EstadoCita.java
+#    Esto permite al frontend saber exactamente qué estados son válidos.
+enum EstadoCita {
+    PENDIENTE,
+    CONFIRMADO,
+    CANCELADO,
+    REQUIERE_DOCUMENTOS,
+    REGISTRADO_EN_SEDE,
+    COMPLETADO,
+    NO_SE_PRESENTO
+}
 
 type AuthResponse {
     token: String!
@@ -86,7 +97,8 @@ type CitaExamen {
 
     idCita: ID!
     fechaHora: String
-    estado: String
+    estado: EstadoCita!
+    fechaModificacion: String!
     examen: Examen
     sede: Sede
     motivoCancelacion: String
