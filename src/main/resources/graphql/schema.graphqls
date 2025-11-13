@@ -25,6 +25,16 @@ input CancelacionInput {
     motivo: String
 }
 
+# Input para la mutación de actualizar el perfil del paciente
+input ActualizarPerfilInput {
+    nombre: String
+    apellido: String
+    tipoDocumento: String # Respetando tu entidad
+    numeroDocumento: String
+    telefono: String
+    email: String
+}
+
 # --- QUERIES (Consultas) ---
 
 type Query {
@@ -44,6 +54,9 @@ type Query {
     examenesDisponibles(fecha: String!, sedeId: ID!, tipoExamenId: ID!): [Examen!]!
     # Devuelve las citas del usuario autenticado (usa el userId del token)
     misCitas: [CitaExamen!]!
+
+    # Query de perfil
+    miPerfil: Usuario!
 }
 
 # --- MUTATIONS (Modificaciones de Estado) ---
@@ -57,6 +70,9 @@ type Mutation {
 
     #Cancela una cita. Protegido con Spring Security (@PreAuthorize).
     cancelarExamen(input: CancelacionInput!): CitaExamen!
+
+    # Mutation Actualizar perfil
+    actualizarPerfil(input: ActualizarPerfilInput!): Usuario!
 }
 
 # --- TIPOS DE RESPUESTA (Output Types) ---
@@ -102,4 +118,16 @@ type CitaExamen {
     examen: Examen
     sede: Sede
     motivoCancelacion: String
+}
+
+# Tipo para el perfil de usuario (HU-003)
+type Usuario {
+    idUsuario: ID!
+    nombre: String
+    apellido: String
+    tipoDocumento: String
+    numeroDocumento: String
+    telefono: String
+    email: String
+    # Omitimos 'contrasena' por seguridad
 }
