@@ -120,14 +120,15 @@ type CitaExamen {
     motivoCancelacion: String
 }
 
-# Tipo para el perfil de usuario (HU-003)
 type Usuario {
     idUsuario: ID!
-    nombre: String
-    apellido: String
-    tipoDocumento: String
-    numeroDocumento: String
-    telefono: String
-    email: String
-    # Omitimos 'contrasena' por seguridad
+    nombre: String!
+    apellido: String!
+    tipoDocumento: String!
+    numeroDocumento: String!
+    email: String!
+    telefono: String!
+    fechaNacimiento: String! # Formato ISO 8601 (YYYY-MM-DD)
+    # NO incluir contrasena por seguridad
+    # roles: [Rol!]! # Descomentar si necesitas exponer los roles
 }
