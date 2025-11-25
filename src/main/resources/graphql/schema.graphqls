@@ -79,9 +79,9 @@ type Mutation {
 # 1. Se define el Enum que corresponde a EstadoCita.java
 #    Esto permite al frontend saber exactamente qué estados son válidos.
 enum EstadoCita {
-    PENDIENTE,
+    AGENDADA,
     CONFIRMADO,
-    CANCELADO,
+    CANCELADA,
     REQUIERE_DOCUMENTOS,
     REGISTRADO_EN_SEDE,
     COMPLETADO,
