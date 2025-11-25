@@ -35,7 +35,7 @@ public class CitaExamenService {
 
     /**
      * Constructor con inyección de dependencias.
-     * 
+     *
      * @param disponibilidadRepository repositorio para gestionar disponibilidades de exámenes
      * @param citaExamenRepository repositorio para persistir citas agendadas
      * @param usuarioRepository repositorio para validar usuarios
@@ -50,14 +50,14 @@ public class CitaExamenService {
 
     /**
      * Agenda un examen médico para un usuario en una fecha, hora y sede específicas.
-     * 
+     *
      * Proceso:
      * 1. Valida la existencia del usuario
      * 2. Bloquea la disponibilidad con lock pesimista para evitar race conditions
      * 3. Verifica que existan cupos disponibles
      * 4. Ocupa un cupo en la disponibilidad
      * 5. Crea y persiste la nueva cita con estado "AGENDADA"
-     * 
+     *
      * @param dto objeto con los datos del agendamiento (usuarioId, sedeId, examenId, fechaHora)
      * @return la cita creada y persistida
      * @throws RecursoNoEncontradoException si el usuario no existe
@@ -131,7 +131,7 @@ public class CitaExamenService {
 
         // ---- MODIFICADO POR LA HISTORIA DE USUARIO ----
         // 3. Validar estado (no se puede cancelar una cita ya cancelada o completada)
-        if (cita.getEstado() == EstadoCita.CANCELADO || cita.getEstado() == EstadoCita.COMPLETADO) {
+        if (cita.getEstado() == EstadoCita.CANCELADA || cita.getEstado() == EstadoCita.COMPLETADO) {
             throw new IllegalStateException("La cita ya está en un estado final (Cancelada o Completada) y no puede modificarse.");
         }
 
@@ -163,7 +163,7 @@ public class CitaExamenService {
         disponibilidadRepository.save(disponibilidadBloqueada);
 
         // 7. Actualizar la cita (coincide con tu columna 'motivo_cancelacion')
-        cita.setEstado(EstadoCita.CANCELADO);
+        cita.setEstado(EstadoCita.CANCELADA);
         cita.setMotivoCancelacion(dto.getMotivo());
 
         // 8. Persistir y retornar la cita actualizada
